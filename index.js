@@ -49,7 +49,7 @@ const errorPrinter = () => {
 }
 
 // Create the store
-const game = createStore(gameReducer)
+export const game = createStore(gameReducer)
 
 // Debug: Print the state
 // game.subscribe(() => console.log(game.getState()))

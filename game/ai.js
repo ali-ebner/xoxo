@@ -1,11 +1,23 @@
 import reducer, {move, bad} from '.'
+import { game } from '../index.js'
 
 /**
  * moves(State) -> [...Action]
  * 
  * Return an array of actions which are valid moves from the given state.
  */
-export const moves = game => [] // TODO
+export const moves = game => {
+	let allMoves = []
+	for (var i = 0; i < 3; i++) {
+  		for (var j = 0; j < 3; j++) {
+  			allMoves.push([i, j])
+  		}
+  	}
+  	allMoves = allMoves.filter(coords => {
+  		return bad() === null
+  	})
+  	return allMoves
+ }
 
 /**
  * score(game: State, move: Action) -> Number
