@@ -41,6 +41,13 @@ const getWinner = () => {
   }
 }
 
+const errorPrinter = () => {
+  const error = game.getState().error;
+  if (error) {
+    console.log(error)
+  }
+}
+
 // Create the store
 const game = createStore(gameReducer)
 
@@ -51,6 +58,7 @@ game.subscribe(printBoard)
 game.subscribe(getInput('X'))
 game.subscribe(getInput('O'))
 game.subscribe(getWinner)
+game.subscribe(errorPrinter)
 
 // We dispatch a dummy START action to call all our
 // subscribers the first time.

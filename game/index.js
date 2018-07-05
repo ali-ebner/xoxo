@@ -27,7 +27,7 @@ const winner = (board) => {
 
   else if (streak(board, [0, 0], [1, 0], [2, 0]))
   	return streak(board, [0, 0], [1, 0], [2, 0])
-  
+
   else if (streak(board, [0, 1], [1, 1], [2, 1]))
   	return streak(board, [0, 1], [1, 1], [2, 1])
 
@@ -39,7 +39,7 @@ const winner = (board) => {
 
   else if (streak(board, [0, 2], [1, 1], [2, 0]))
   	return streak(board, [0, 2], [1, 1], [2, 0])
-  
+
   else {
   	for (var i = 0; i < 3; i++) {
   		for (var j = 0; j < 3; j++) {
@@ -63,8 +63,24 @@ const boardReducer = (board = Map(), action) => {
 	}
 }
 
+const bad = (action, state) => {
+  if (action.type === MOVE) {
+    if (action.player !== state.turn) {
+      return 'Its not your turn!'
+    } else if (!(0 <= action.position[0] && action.position[0] < 3) || !(0 <= action.position[1] && action.position[1] < 3)) {
+      return 'Position Invalid'
+    } else if (state.board.hasIn(action.position)) {
+      return 'This square is already taken'
+    } else {return null}
+  }
+}
+
 export default function reducer(state = initialState, action) {
   const newState = Object.assign({}, state)
+  if (bad(action, newState)) {
+    newState.error = bad(action, newState)
+    return newState
+  } else {
   switch (action.type) {
     case MOVE:
         newState.board = boardReducer(newState.board, action)
@@ -73,6 +89,7 @@ export default function reducer(state = initialState, action) {
         return newState
   default:
     return state
+  }
   }
 }
 
@@ -84,10 +101,3 @@ const streak = (board, firstCoord, ...remainingCoords) => {
 	}
 	return value
 }
-
-
-
-
-
-
-
