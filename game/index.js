@@ -15,12 +15,13 @@ export const move = (turn, coordinates) => {
 }
 
 export default function reducer(state = initialState, action) {
+  const newState = Object.assign({}, state)
   switch (action.type) {
     case MOVE:
-      return {
-        board: state.board.setIn(action.position, action.player),
-        turn: state.turn === 'X' ? 'O' : 'X'
-      }
+        newState.board = newState.board.setIn(action.position, action.player)
+        newState.turn = newState.turn === 'X' ? 'O' : 'X'
+        return newState
+
   default:
     return state
   }
